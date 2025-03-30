@@ -1,0 +1,202 @@
+:root {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #2e2f42;
+  background-color: #fff;
+  user-select: none;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-width: 100dvw;
+  min-height: 100dvh;
+}
+
+main {
+  flex-grow: 1;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  width: 371px;
+  background-color: #fff;
+  margin: 0 auto;
+  padding-top: 36px;
+  padding-bottom: 32px;
+  position: relative;
+}
+
+.form label {
+  flex-grow: 1;
+}
+
+.form input {
+  border: 1px solid #808080;
+  border-radius: 4px;
+  width: 100%;
+  height: 40px;
+  padding: 8px 16px;
+  outline: transparent;
+}
+
+.form input:hover {
+  border-color: #000;
+}
+
+.form > label:active > input,
+input:focus {
+  border-color: #4e75ff;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  width: 91px;
+  height: 40px;
+  background-color: #4e75ff;
+
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
+
+.form button:hover {
+  background-color: #6c8cff;
+}
+
+.loading-text {
+  position: absolute;
+  display: block;
+  width: 256px;
+  transform: translate(-50%, 100%);
+  bottom: 0;
+  left: 50%;
+  text-align: center;
+
+  letter-spacing: 0.04em;
+}
+
+.loader {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  font-size: 48px;
+  color: hwb(281 8% 27% / 0.938);
+  width: 1em;
+  height: 1em;
+  box-sizing: border-box;
+  background-color: currentcolor;
+  border-radius: 50%;
+}
+
+.loader:before,
+.loader:after {
+  content: '';
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  animation: flowerFlow 1s ease-out infinite;
+}
+
+.loader:after {
+  animation-delay: 0.4s;
+}
+
+@keyframes flowerFlow {
+  0% {
+    opacity: 1;
+    transform: rotate(0deg);
+    box-shadow: 0 0 0 -0.5em currentcolor, 0 0 0 -0.5em currentcolor,
+      0 0 0 -0.5em currentcolor, 0 0 0 -0.5em currentcolor,
+      0 0 0 -0.5em currentcolor, 0 0 0 -0.5em currentcolor,
+      0 0 0 -0.5em currentcolor, 0 0 0 -0.5em currentcolor;
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotate(180deg);
+    box-shadow: -1em -1em 0 -0.35em currentcolor,
+      0 -1.5em 0 -0.35em currentcolor, 1em -1em 0 -0.35em currentcolor,
+      -1.5em 0 0 -0.35em currentcolor, 1.5em -0 0 -0.35em currentcolor,
+      -1em 1em 0 -0.35em currentcolor, 0 1.5em 0 -0.35em currentcolor,
+      1em 1em 0 -0.35em currentcolor;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.gallery {
+  margin: 0 auto;
+  /* width: 1128px; */
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  background-color: transparent;
+}
+
+.gallery li {
+  width: 360px;
+  height: 200px;
+  border: 1px solid #808080;
+  transition: transform 200ms ease-in-out;
+  overflow: hidden;
+  position: relative;
+  /* width: calc((100% - 48px) / 3); */
+}
+
+.gallery li:hover {
+  transform: scale(1.04);
+}
+
+.caption {
+  width: 100%;
+  height: 48px;
+  padding: 4px 0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.caption th {
+  width: 25%;
+
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.33333;
+  letter-spacing: 0.04em;
+}
+
+.caption td {
+  font-size: 12px;
+  line-height: 2;
+  letter-spacing: 0.04em;
+}
+
+.basicLightbox {
+  background-color: #2e2f42;
+}
