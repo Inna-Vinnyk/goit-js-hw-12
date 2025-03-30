@@ -18,16 +18,19 @@
             <input name="request" placeholder="Search images..." required />
           </label>
           <button type="submit" name="button">Search</button>
-          <p class="loading-text hidden">
-            <span class="loader"></span>Loading images, please wait...
-          </p>
         </form>
         <ul class="gallery"></ul>
+        <div class="loading hidden">
+          <div class="loader"></div>
+          <p class="loading-text">Loading images, please wait...</p>
+        </div>
+        <button class="hidden" type="button" id="moreImgBtn">Load more</button>
       </div>
     </main>
 
     <load src="./partials/footer.html" />
 
-    <script type="module" src="./main.js"></script>
+    <div class="loader hidden"></div>
+    <script type="module" src="./main.js" async defer></script>
   </body>
 </html>

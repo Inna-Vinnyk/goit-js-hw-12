@@ -20,6 +20,7 @@
     "axios": "^1.8.4",
     "css-loader": "^7.1.2",
     "izitoast": "^1.4.0",
+    "pixabay": "^0.0.1",
     "simplelightbox": "^2.14.3",
     "vite-plugin-full-reload": "^1.2.0",
     "vite-plugin-html-inject": "^1.1.2"
