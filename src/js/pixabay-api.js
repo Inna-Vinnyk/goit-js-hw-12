@@ -8,7 +8,7 @@ iziToast.settings({
   messageColor: '#fff',
 });
 
-export async function searchImage(request, page = 1, per_page = 20) {
+export async function searchImage(request, page = 1, per_page = 15) {
   const API_KEY = '49598777-3dc21f1e795110eeeec900fde';
   const URL =
     'https://pixabay.com/api/?key=' +

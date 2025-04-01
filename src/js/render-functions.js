@@ -4,6 +4,11 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 let gallery = new SimpleLightbox('.gallery a');
 
 export function renderGallary(images, galleryHTML) {
+  if (!images || images.length === 0) {
+    galleryHTML.innerHTML = ''; // Очищаем галерею, если массив пустой
+    return; // Выходим из функции, чтобы не продолжать выполнение
+  }
+
   let markup = images
     .map(
       image => `
@@ -32,28 +37,5 @@ export function renderGallary(images, galleryHTML) {
     .join('');
 
   galleryHTML.insertAdjacentHTML('beforeend', markup);
-  // const imgLd = galleryHTML.querySelectorAll('img');
-  // console.log(' renderGallary imgLd:', imgLd);
-
-  // const imgLdP = [...imgLd].map(img => {
-  //   return new Promise((resolve, reject) => {
-  //     img.onload = () => resolve(img);
-  //     if (0) {
-  //       reject();
-  //     }
-  //   });
-  // });
-  // console.log(' renderGallary imgLdP:', imgLdP);
-
-  // Promise.all(imgLdP).then();
-
   gallery.refresh();
-
-  //   gallery.on('show.simplelightbox', function () {
-  //     // Do something…
-  //   });
-
-  // gallery.on('error.simplelightbox', function (e) {
-  //   console.log(e); // Some usefull information
-  // });
 }

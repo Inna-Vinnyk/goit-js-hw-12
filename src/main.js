@@ -13,101 +13,96 @@ const refs = {
 };
 
 refs.form.addEventListener('submit', handleSubmitClick);
-let page = 1,
-  per_page = 20,
-  request = '';
+let page,
+  per_page = 15,
+  request;
 
 async function handleSubmitClick(event) {
   event.preventDefault();
-  refs.request.setAttribute('readonly', true); // Установить readonly для input
-  refs.submitBtn.disabled = true; // Отключить кнопку "Submit"
-  refs.loader.classList.remove('hidden'); // Показать загрузчик
+  refs.request.setAttribute('readonly', true); //readonly for input
+  refs.submitBtn.disabled = true; // disable "Submit" button
+  refs.loader.classList.remove('hidden'); // show loader
 
+  page = 1;
   request = refs.request.value.trim();
 
   try {
     const images = await searchImage(request, page, per_page);
+    console.log(images); // Отладочное сообщение
 
-    refs.request.removeAttribute('readonly'); // Восстановить элементы
-    refs.submitBtn.disabled = false; // Включить кнопку "Submit"
-    refs.loader.classList.add('hidden'); // Скрыть загрузчик
+    refs.request.removeAttribute('readonly'); // Restore elements
+    refs.submitBtn.disabled = false; //               state
+    refs.loader.classList.add('hidden'); // hide loader
 
-    // Проверка на пустой массив
     if (!images || !images.urls || images.urls.length === 0) {
-      refs.gallery.innerHTML = ''; // Очищаем галерею
+      // Проверяем на пустой массив
+      refs.gallery.innerHTML = ''; // Очищаем галерею при отсутствии изображений
       refs.moreImgBtn.classList.add('hidden'); // Скрываем кнопку "More"
-      iziToast.info({
-        position: 'topRight',
-        message: 'No images found. Please try a different search.',
-      });
       return;
     }
 
     refs.gallery.innerHTML = '';
     refs.request.value = '';
+
     renderGallary(images.urls, refs.gallery);
-    needMoreBtnCheck(images); // Показать/скрыть кнопку "More"
+
+    needMoreBtnCheck(images); //   Show/hide "More" button
   } catch (error) {
-    console.error('Error fetching images:', error);
-    refs.request.removeAttribute('readonly'); // Восстановить элементы
-    refs.submitBtn.disabled = false; // Включить кнопку "Submit"
-    refs.loader.classList.add('hidden'); // Скрыть загрузчик
+    console.error('Error fetching images:', error); // Логируем ошибку
     iziToast.error({
       position: 'topRight',
-      message: 'An error occurred while fetching images. Please try again.',
+      message: 'An error occurred while fetching images.',
     });
+
+    refs.loader.classList.add('hidden'); // hide loader in case of error
+    refs.request.removeAttribute('readonly');
+    refs.submitBtn.disabled = false;
   }
 }
 
 async function handleMoreClick(event) {
-  refs.loader.classList.remove('hidden'); // Показать текст загрузки
+  refs.loader.classList.remove('hidden'); //show loader text
+
   try {
     const images = await searchImage(request, ++page, per_page);
 
-    // Проверка на пустой массив
     if (!images || !images.urls || images.urls.length === 0) {
-      refs.loader.classList.add('hidden'); // Скрыть текст загрузки
-      refs.moreImgBtn.classList.add('hidden'); // Скрыть кнопку "More"
-      iziToast.info({
-        position: 'topRight',
-        message: 'No more images found.',
-      });
+      // Проверяем на пустой массив
+      refs.loader.classList.add('hidden'); // скрываем загрузчик
       return;
     }
 
-    const lastGalleryCard = refs.gallery.lastElementChild; // Запомнить последний элемент перед добавлением новых
+    const lastGalleryCard = refs.gallery.lastElementChild; //remember last element before new will add
+
     renderGallary(images.urls, refs.gallery);
-    refs.loader.classList.add('hidden'); // Скрыть текст загрузки
-    needMoreBtnCheck(images); // Показать/скрыть кнопку "More"
+
+    refs.loader.classList.add('hidden'); // hide loader text
+
+    needMoreBtnCheck(images); //   Show/hide "More" button
 
     const { top: lastCardPos } = lastGalleryCard.getBoundingClientRect();
-    window.scrollBy({ top: lastCardPos - 24, behavior: 'smooth' }); // Прокрутить к верхней границе последней карточки
+
+    window.scrollBy({ top: lastCardPos - 24, behavior: 'smooth' }); //scroll to top border of the last card
   } catch (error) {
-    console.error('Error fetching more images:', error);
-    refs.loader.classList.add('hidden'); // Скрыть текст загрузки
+    console.error('Error fetching more images:', error); // Логируем ошибку
     iziToast.error({
       position: 'topRight',
-      message:
-        'An error occurred while fetching more images. Please try again.',
+      message: 'An error occurred while fetching more images.',
     });
+
+    refs.loader.classList.add('hidden'); // hide loader in case of error
   }
 }
 
 function needMoreBtnCheck(images) {
-  if (
-    !images ||
-    !images.urls ||
-    images.urls.length < per_page ||
-    images.total === page * per_page
-  ) {
-    refs.moreImgBtn.classList.add('hidden'); // Скрыть кнопку "More"
-    refs.moreImgBtn.removeEventListener('click', handleMoreClick);
+  if (images.urls.length < per_page || images.total === page * per_page) {
+    refs.moreImgBtn.classList.add('hidden'); //hide "More" button
     iziToast.info({
       position: 'topRight',
       message: "We're sorry, but you've reached the end of search results.",
     });
   } else {
-    refs.moreImgBtn.classList.remove('hidden'); // Показать кнопку "More"
+    refs.moreImgBtn.classList.remove('hidden'); //show "More" button
     refs.moreImgBtn.addEventListener('click', handleMoreClick);
   }
 }
